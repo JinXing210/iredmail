@@ -22,7 +22,7 @@ app.use(express.static(__dirname + '/client'));
 //-------------------------------------------------------//
 //-------------------------------------------------------//
 //-------------------------------------------------------//
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 4500;
 var server = app.listen(port, function(){
     console.log("SocialxApp Mail Server has started on port " + port);
 });
