@@ -14,6 +14,7 @@ module.exports = function(app) {
         };
     };
     //----------------------------------------------------------------------//
+    app.get('/',httpHandler(api_handler.getMain));
     app.post('/mail/getall/',httpHandler(api_handler.getAll));
     app.post('/mail/add/',httpHandler(api_handler.add));
     app.post('/mail/update/',httpHandler(api_handler.update));

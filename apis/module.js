@@ -26,6 +26,10 @@ function isEmpty(obj) {
 //-------------------------------------------------------//
 // RESTful API for client
 //-------------------------------------------------------//
+module.exports.getMain = co.wrap(function*(req,res,cb) {
+    console.log( "index.html/"+req.params );
+    res.render('index.html');
+});
   
 module.exports.getAll = co.wrap(function*(req,res,cb) {
     try {
