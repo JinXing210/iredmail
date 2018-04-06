@@ -26,3 +26,6 @@ var port = process.env.PORT || 5000;
 var server = app.listen(port, function(){
     console.log("SocialxApp Mail Server has started on port " + port);
 });
+
+require('./apis/router')(app);
+
