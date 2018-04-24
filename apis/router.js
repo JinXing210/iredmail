@@ -15,10 +15,10 @@ module.exports = function(app) {
     };
     //----------------------------------------------------------------------//
     app.get('/api/',httpHandler(api_handler.getMain));
-    app.post('/mail/getall/',httpHandler(api_handler.getAll));
-    app.post('/mail/add/',httpHandler(api_handler.add));
-    app.post('/mail/update/',httpHandler(api_handler.update));
-    app.post('/mail/remove/',httpHandler(api_handler.remove));
+    app.post('/api/mail/getall/',httpHandler(api_handler.getAll));
+    app.post('/api/mail/add/',httpHandler(api_handler.add));
+    app.post('/api/mail/update/',httpHandler(api_handler.update));
+    app.post('/api/mail/remove/',httpHandler(api_handler.remove));
     //----------------------------------------------------------------------//
 
 }
