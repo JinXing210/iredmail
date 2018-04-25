@@ -45,7 +45,7 @@ var salt = getRandomString(8);
 var hash = crypto.createHmac('sha512',salt);
 hash.update('admin');
 
-var pass = hash.digest('hex');
+var pass = hash.digest('hex').toString('ascii');
 
 console.log( salt );
 console.log( pass);
