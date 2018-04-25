@@ -3,8 +3,7 @@ const request = require('request');
 const crypto  = require('crypto');
 const co      = require('co');
 const mysql   = require('promise-mysql');
-
-// const sha512  = request('sha512');
+var base64 = require('js-base64').Base64;
 
 var dbs = {
     'host'      :   '127.0.0.1',
@@ -12,6 +11,21 @@ var dbs = {
     'database'  :   'vmail',
     'user'      :   'root',
     'password'  :   'admin'
+}
+
+
+var getRandomString = function(length) {
+    return crypto.randomBytes(Math.ceil(length)/2)
+                 .toString('hex')
+                 .slice(0,length);
+}
+var getSSHA512Password = function(  password ) {
+    var salt = getRandomString(8);
+    var hash = crypto.createHmac('sha512',password);
+    hash.update(salt);
+    var pass = hash.digest().toString('ascii');
+    var sshapass =  base64.encode(pass+salt);
+    return sshapass;
 }
 
 function validate(param) {
@@ -84,7 +98,8 @@ module.exports.add = co.wrap(function*(req,res,cb) {
 
     let domain="aone.social";
     let username=req.body.mail;
-    let password=req.body.passwd;
+    let password=getSSHA512Password(req.body.passwd);
+
     let name="";
     let maildir=getmaildir(username);
     // let maildir=req.body.maildir;
