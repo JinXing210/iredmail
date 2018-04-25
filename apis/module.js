@@ -25,7 +25,7 @@ var getSSHA512Password = function(  password ) {
     hash.update(salt);
     var pass = hash.digest().toString('ascii');
     var sshapass =  base64.encode(pass+salt);
-    return {SSHA512}+sshapass;
+    return "{SSHA512}"+sshapass;
 }
 
 function validate(param) {
