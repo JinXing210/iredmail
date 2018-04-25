@@ -45,13 +45,13 @@ var salt = getRandomString(8);
 var hash = crypto.createHmac('sha512',salt);
 hash.update('admin');
 
-var pass = hash.digest('hex').toString('ascii');
+var pass = hash.digest();
 
 console.log( salt );
 console.log( pass);
 
-console.log( base64.encode(pass).toString('ascii'));
-console.log( base64.encode(pass+salt).toString('ascii'));
+console.log( base64.encode(pass));
+console.log( base64.encode(pass+salt));
 // console.log( base64.encode(hash2.toString('hex')+salt));
 
 /*
