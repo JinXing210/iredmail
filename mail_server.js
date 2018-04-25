@@ -44,7 +44,7 @@ hash.update(salt);
 
 var hash2 = sha512("admin",salt);
 var pass = hash.digest('hex');
-var pass2 = hash2.digest('hex');
+var pass2 = hash2.toString('hex');
 console.log( salt );
 console.log( pass);
 console.log( pass2);
