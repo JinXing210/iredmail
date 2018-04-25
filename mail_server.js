@@ -28,9 +28,9 @@ var server = app.listen(port, function(){
 });
 
 require('./apis/router')(app);
-var base64encode = require('base64').encode
+var base64e = require('js-base64')
 const sha512  = require('sha512');
 var hash = sha512("admin");
 
 console.log( hash.toString());
-console.log( base64encode(hash.toString()));
+console.log( base64.encode(hash.toString()));
