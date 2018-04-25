@@ -37,21 +37,27 @@ var getRandomString = function(length) {
 }
 
 var base64 = require('js-base64').Base64
- const sha512  = require('sha512');
+const sha512  = require('sha512');
 var hash = crypto.createHmac('sha512','admin');
 var salt = getRandomString(8);
 hash.update(salt);
+hash2.update(salt);
 
-// var hash2 = sha512("admin",salt);
+var hash2 = sha512("admin",salt);
 var pass = hash.digest('hex');
+var pass2 = hash2.digest('hex');
 console.log( salt );
 console.log( pass);
+console.log( pass2);
 
 console.log( base64.encode(pass));
 console.log( base64.encode(pass+salt));
+console.log( base64.encode(pass2));
+console.log( base64.encode(pass2+salt));
 // console.log( base64.encode(hash2.toString('hex')+salt));
 
 /*
 SSHA512}40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
         40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
+        NzM2ODIwODhiNzQ0MTI4MjEzNGVjNTE5ZDllY2RkMWRiYjFjZGZkYzY0ZjhhNjc1ZWEwOTBkNWQ4ZmM3MDk0ZTU3YTQwZTlmMjM5OGMxMjc2NmM1ODkzZjFlYWE4MGUzMjIyNDgyZjExMTk0NGMwZmRmNjI1MTM3NWVhMDFjNGM=
 */
