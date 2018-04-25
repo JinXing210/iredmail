@@ -38,21 +38,20 @@ var getRandomString = function(length) {
 
 var base64 = require('js-base64').Base64
 const sha512  = require('sha512');
-var hash = crypto.createHmac('sha512','admin');
+// var hash = crypto.createHmac('sha512','admin');
+// var salt = getRandomString(8);
+// hash.update(salt);
 var salt = getRandomString(8);
-hash.update(salt);
+var hash = crypto.createHmac('sha512',dalt);
+hash.update('admin');
 
-var hash2 = sha512("admin",salt);
 var pass = hash.digest('hex');
-var pass2 = hash2.toString('hex');
+
 console.log( salt );
 console.log( pass);
-console.log( pass2);
 
 console.log( base64.encode(pass));
 console.log( base64.encode(pass+salt));
-console.log( base64.encode(pass2));
-console.log( base64.encode(pass2+salt));
 // console.log( base64.encode(hash2.toString('hex')+salt));
 
 /*
