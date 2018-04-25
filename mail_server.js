@@ -47,10 +47,9 @@ var hash2 = sha512("admin",salt);
 console.log( salt );
 console.log( hash.digest('hex'));
 console.log( hash2.toString('hex'));
-console.log( hash.toString('hex'));
 
 console.log( base64.encode(hash.digest('hex')+salt));
-console.log( base64.encode(hash2.toString('hex')+salt));
+ console.log( base64.encode(hash2.toString('hex')+salt));
 
 /*
 SSHA512}40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
