@@ -42,7 +42,7 @@ const sha512  = require('sha512');
 // var salt = getRandomString(8);
 // hash.update(salt);
 var salt = getRandomString(8);
-var hash = crypto.createHmac('sha512',dalt);
+var hash = crypto.createHmac('sha512',salt);
 hash.update('admin');
 
 var pass = hash.digest('hex');
