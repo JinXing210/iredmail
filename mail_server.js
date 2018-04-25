@@ -28,35 +28,25 @@ var server = app.listen(port, function(){
 });
 
 require('./apis/router')(app);
+
 const crypto  = require('crypto');
+var base64 = require('js-base64').Base64
 
 var getRandomString = function(length) {
     return crypto.randomBytes(Math.ceil(length)/2)
                  .toString('hex')
                  .slice(0,length);
 }
-
-var base64 = require('js-base64').Base64
-const sha512  = require('sha512');
-// var hash = crypto.createHmac('sha512','admin');
-// var salt = getRandomString(8);
-// hash.update(salt);
-var salt = getRandomString(8);
-var hash = crypto.createHmac('sha512','admin');
-hash.update(salt);
-var pass = hash.digest().toString('ascii');
-
-var hash2 = crypto.createHmac('sha512',salt);
-hash2.update('admin');
-var pass2 = hash2.digest().toString('ascii');
-
-console.log( salt );
+var getSSHA512Password = function(  password ) {
+    var salt = getRandomString(8);
+    var hash = crypto.createHmac('sha512',password);
+    hash.update(salt);
+    var pass = hash.digest().toString('ascii');
+    var sshapass =  base64.encode(pass+salt);
+    return sshapass;
+}
+var pass = getSSHA512Password('admin');
 console.log( pass);
-
-console.log( base64.encode(pass));
-console.log( base64.encode(pass+salt));
-console.log( base64.encode(pass2+salt));
-// console.log( base64.encode(hash2.toString('hex')+salt));
 
 /*
 SSHA512}40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
