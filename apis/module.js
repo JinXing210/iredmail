@@ -4,8 +4,9 @@ const crypto  = require('crypto');
 const co      = require('co');
 const mysql   = require('promise-mysql');
 var base64 = require('js-base64').Base64;
-var urandom = new require('randbytes');
-var random = urandom.urandom.getInstance();
+const b64encode  = require('base64-encode-string');
+// var urandom = new require('randbytes');
+// var random = urandom.urandom.getInstance();
 
 var dbs = {
     'host'      :   '127.0.0.1',
@@ -26,7 +27,8 @@ var getSSHA512Password = function(  password ) {
     var hash = crypto.createHmac('sha512',password);
     hash.update(salt);
     var pass = hash.digest().toString('ascii');
-    var sshapass =  base64.encode(pass+salt);
+    // var sshapass =  base64.encode(pass+salt);
+    var sshapass =  b64encode(pass+salt);
     return "{SSHA512}"+sshapass;
 }
 
