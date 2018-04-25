@@ -37,14 +37,23 @@ var getRandomString = function(length) {
 }
 
 var base64 = require('js-base64').Base64
-const sha512  = require('sha512');
+const b64encode  = require('base64-encode-string');
 
-var hash = sha512('admin');
-var salt = getRandomString(8);
-hash.update(salt);
-var pass = hash.digest().toString('ascii');
-var sshapass =  base64.encode(pass+salt);
+var getRandomString = function(length) {
+    return crypto.randomBytes(Math.ceil(length)/2)
+                 .toString('hex')
+                 .slice(0,length);
+}
+var getSSHA512Password = function(  password ) {
+    var salt = getRandomString(8);
+    var hash = crypto.createHmac('sha512',password);
+    hash.update(salt);
+    var pass = hash.digest().toString('ascii');
+    var sshapass =  b64encode(pass+salt);
+    return "{SSHA512}"+sshapass;
+}
 
+var sshapass = getSSHA512Password("admin")
 console.log( sshapass);
 
 // console.log( base64.encode(hash2.toString('hex')+salt));
@@ -52,6 +61,6 @@ console.log( sshapass);
 /*
 SSHA512}40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
         40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
-        SSZcfC5mezdROx40Hx1kSyp5Jlt4bVIaPEsDGxgmdjE4Cl8SdTc2L2FBPCcmNRI/akkwOwR1bxtlcxIcKhM9QmJlNjZkY2Ey
+SSZcfC5mezdROx40Hx1kSyp5Jlt4bVIaPEsDGxgmdjE4Cl8SdTc2L2FBPCcmNRI/akkwOwR1bxtlcxIcKhM9QmJlNjZkY2Ey
 
 */

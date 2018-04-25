@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {},
   "dependencies": {
+    "base64-encode-string": "^1.0.0",
     "body-parser": "~1.14.2",
     "co": "^4.6.0",
     "crypto": "^0.0.3",
