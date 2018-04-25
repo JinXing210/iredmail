@@ -46,7 +46,7 @@ var hash2 = sha512("admin",salt);
 
 console.log( salt );
 console.log( hash.digest('hex'));
-//console.log( hash2.toString('hex'));
+console.log( hash.toString('hex'));
 
 console.log( base64.encode(hash.digest('hex')));
 console.log( base64.encode(hash.toString('hex')+salt));
