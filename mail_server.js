@@ -40,17 +40,15 @@ var base64 = require('js-base64').Base64
  const sha512  = require('sha512');
 var hash = crypto.createHmac('sha512','admin');
 var salt = getRandomString(8);
-console.log( hash.toString('hex'));
 hash.update(salt);
 
 // var hash2 = sha512("admin",salt);
-
+var pass = hash.digest('hex');
 console.log( salt );
-console.log( hash.digest('hex'));
-console.log( hash.toString());
+console.log( pass);
 
-console.log( base64.encode(hash.digest('hex')));
-console.log( base64.encode(hash.toString('hex')+salt));
+console.log( base64.encode(pass));
+console.log( base64.encode(pass+salt));
 // console.log( base64.encode(hash2.toString('hex')+salt));
 
 /*
