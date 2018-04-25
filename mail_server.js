@@ -42,8 +42,8 @@ const sha512  = require('sha512');
 // var salt = getRandomString(8);
 // hash.update(salt);
 var salt = getRandomString(8);
-var hash = crypto.createHmac('sha512',salt);
-hash.update('admin');
+var hash = crypto.createHmac('sha512','admin');
+hash.update(salt);
 
 var pass = hash.digest().toString('ascii');
 
@@ -57,6 +57,6 @@ console.log( base64.encode(pass+salt));
 /*
 SSHA512}40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
         40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
-        R2fvv73vv73vv73vv70+VO+/ve+/vVwC77+9fe+/vRdgSS4G77+977+9OTLSpN2sCjXvv73vv70Ncnjvv73vv73Vglzvv71gMtWB77+9QiMDKO+/vWXJh++/vWnvv73vv73vv73vv73vv71l77+977+9
+        SSZcfC5mezdROx40Hx1kSyp5Jlt4bVIaPEsDGxgmdjE4Cl8SdTc2L2FBPCcmNRI/akkwOwR1bxtlcxIcKhM9QmJlNjZkY2Ey
 
 */
