@@ -44,6 +44,17 @@ function getNowDate(){
     return addZero(d.getFullYear())+addZero(d.getMonth()+1)+addZero(d.getDate()) + addZero(d.getHours()) + addZero(d.getMinutes() + addZero(d.getSeconds()));
 }
 
+function getNowDate2(){
+    var now = new Date();
+    var lh = now.getHours();
+    var uh = now.getUTCHours();
+    var dh = (lh-uh);
+    var d = new Date(now.getTime() + (dh*60*60 * 1000));
+
+    let year = d.getFullYear();
+    return addZero(d.getFullYear())+"-"+addZero(d.getMonth()+1)+"-"+addZero(d.getDate()) +" "+ addZero(d.getHours()) +":"+ addZero(d.getMinutes() +":"+ addZero(d.getSeconds()));
+}
+
 //-------------------------------------------------------//
 // RESTful API for client
 //-------------------------------------------------------//
