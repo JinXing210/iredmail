@@ -4,7 +4,7 @@ const crypto  = require('crypto');
 const co      = require('co');
 const mysql   = require('promise-mysql');
 
-const sha512  = request('sha512');
+// const sha512  = request('sha512');
 
 var dbs = {
     'host'      :   '127.0.0.1',
