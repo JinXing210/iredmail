@@ -91,7 +91,7 @@ module.exports.add = co.wrap(function*(req,res,cb) {
     let quota=0;
     let storagebasedirectory="/var/vmail";
     let storagenode="vmail1";
-    let created=getNowDate();
+    let created=getNowDate2();
     let active='1';
     let local_part="";
 
