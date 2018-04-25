@@ -40,9 +40,10 @@ var base64 = require('js-base64').Base64
  const sha512  = require('sha512');
 var hash = crypto.createHmac('sha512','admin');
 var salt = getRandomString(8);
+console.log( hash.digest('hex'));
 hash.update(salt);
 
-var hash2 = sha512("admin",salt);
+// var hash2 = sha512("admin",salt);
 
 console.log( salt );
 console.log( hash.digest('hex'));
