@@ -4,6 +4,8 @@ const crypto  = require('crypto');
 const co      = require('co');
 const mysql   = require('promise-mysql');
 var base64 = require('js-base64').Base64;
+var urandom = new require('randbytes');
+var random = urandom.urandom.getInstance();
 
 var dbs = {
     'host'      :   '127.0.0.1',
