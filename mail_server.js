@@ -33,7 +33,9 @@ const sha512  = require('sha512');
 var hash = sha512("admin");
 
 console.log( hash.toString());
+console.log( hash.toString('hex'));
 console.log( base64.encode(hash.toString()));
+console.log( base64.encode(hash.toString('hex')));
 console.log( base64.encode("admin"));
 /*
 SSHA512}40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
