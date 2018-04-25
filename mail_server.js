@@ -48,13 +48,11 @@ console.log( salt );
 console.log( hash.digest('hex'));
 //console.log( hash2.toString('hex'));
 
+console.log( base64.encode(hash.digest('hex')));
 console.log( base64.encode(hash.digest('hex')+salt));
 // console.log( base64.encode(hash2.toString('hex')+salt));
 
 /*
 SSHA512}40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
-7ac972b585eb352909f3fb616c9924bd2ace29bfc327957a50f550d7fab93b1b850e66ee5c4890ed8c70b576695cd84312f39775937ea9767f684824dc9ef6df
-
-SSHA512}x61Ey612Kl3vv73vv71S77+977+9VO+/ve+/ve+/ve+/ve+/vSo4AV8j77+977+977+977+9C++/vR3vv71yY03vv73vv70c77+9Tu+/vTXvv71q77+977+977+977+977+9H++/vVET77+977+9U++/vcad77+93pB377+9
-
+        40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
 */
