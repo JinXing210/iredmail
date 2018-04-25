@@ -50,12 +50,11 @@ var pass = hash.digest('hex');
 console.log( salt );
 console.log( pass);
 
-console.log( base64.encode(pass));
-console.log( base64.encode(pass+salt));
+console.log( base64.encode(pass).toString('ascii'));
+console.log( base64.encode(pass+salt).toString('ascii'));
 // console.log( base64.encode(hash2.toString('hex')+salt));
 
 /*
 SSHA512}40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
         40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
-        NzM2ODIwODhiNzQ0MTI4MjEzNGVjNTE5ZDllY2RkMWRiYjFjZGZkYzY0ZjhhNjc1ZWEwOTBkNWQ4ZmM3MDk0ZTU3YTQwZTlmMjM5OGMxMjc2NmM1ODkzZjFlYWE4MGUzMjIyNDgyZjExMTk0NGMwZmRmNjI1MTM3NWVhMDFjNGM=
 */
