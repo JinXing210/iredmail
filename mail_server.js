@@ -37,8 +37,9 @@ var getRandomString = function(length) {
 }
 
 var base64 = require('js-base64').Base64
-const sha512  = require('sha512');
-var hash = sha512.hmac("admin");
+// const sha512  = require('sha512');
+// var hash = sha512.hmac("admin");
+var hash = crypto.createHmac('sha512','admin');
 var salt = getRandomString(8);
 hash.update(salt);
 
