@@ -62,24 +62,31 @@ module.exports.getAll = co.wrap(function*(req,res,cb) {
     }
 });
 
+function getmaildir(mail) {
+    let maildir = "";
+    var res = mail.split("@");
+    return res[0] + "-" + getNowDate();
+}
+
 module.exports.add = co.wrap(function*(req,res,cb) {
     console.log( req.body );
 
-    let domain=req.body.domain;
+    let domain="aone.social";
     let username=req.body.mail;
     let password=req.body.passwd;
-    let name=req.body.cn;
-    let maildir=req.body.maildir;
-    let quota=req.body.mailQuota;
-    let storagebasedirectory=req.body.storageBaseDirectory;
-    let storagenode=req.bodystorageNode;
+    let name="";
+    let maildir=getmaildir(username);
+    // let maildir=req.body.maildir;
+    let quota=0;
+    let storagebasedirectory="/var/vmail";
+    let storagenode="vmail1";
     let created=getNowDate();
     let active='1';
-    let local_part=req.body.mail_local_part;
+    let local_part="";
 
     let address=req.body.mail;
     let forwarding=req.body.mail;
-    let is_forwarding=r1;
+    let is_forwarding=1;
 
     let sql_mailbox = "insert into mailbox(domain,username,password,name,maildir,quota,storagebasedirectory,storagenode,created,active,local_part) values(?,?,?,?,?,?,?,?,?,?,?)";
     let sql_forwardings = "insert into forwardings(address,forwarding,domain,is_forwarding) values(?,?,?,?)";
