@@ -29,6 +29,6 @@ var server = app.listen(port, function(){
 
 require('./apis/router')(app);
 
-const sha512  = request('sha512');
+const sha512  = require('sha512');
 var hash = sha512("admin");
 console.log( hash.toString());
