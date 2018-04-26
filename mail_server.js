@@ -67,12 +67,13 @@ var options = {
 }
 python.run('./apis/encodepass.py',options,function(err,data){
     console.log( err );
-    console.log( data );
+    console.log( data.toString );
 })
 // console.log( base64.encode(hash2.toString('hex')+salt));
 
 /*
 {SSHA512}40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
+{SSHA512}VGrDLgzN/+MbSJdthAppDnM/2Dk2ZfQ4JBYDYDgDkBHZI4UqPIuvxJhcbZMS3w+HDMycbgGog/Ff9SDl+1Y3BYXMutzVZIXV
         40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
         BBg4DlpGSHBUfHpIUSEMA04FRnkIbhQZICI6YFJXRTAKOT0sTiQSdioXfjdeVScnHxsEAxYUa0JCJkFxfgJgEzNmMGZkZjM5
 SSZcfC5mezdROx40Hx1kSyp5Jlt4bVIaPEsDGxgmdjE4Cl8SdTc2L2FBPCcmNRI/akkwOwR1bxtlcxIcKhM9QmJlNjZkY2Ey

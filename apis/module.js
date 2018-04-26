@@ -8,6 +8,8 @@ const b64encode  = require('base64-encode-string');
 // var urandom = new require('randbytes');
 // var random = urandom.urandom.getInstance();
 
+var python = require('python-shell');
+
 var dbs = {
     'host'      :   '127.0.0.1',
     'port'      :   '3306',
@@ -96,8 +98,51 @@ function getmaildir(mail) {
     var res = mail.split("@");
     return res[0] + "-" + getNowDate();
 }
-
 module.exports.add = co.wrap(function*(req,res,cb) {
+    console.log( req.body );
+
+    var options = {
+        args:
+        [
+            req.body.passwd
+        ]
+    }
+    python.run('./apis/encodepass.py',options,function(err,data){
+        console.log( err );
+        console.log( data );
+        let domain="aone.social";
+        let username=req.body.mail;
+        let password=getSSHA512Password(req.body.passwd);
+    
+        let name="";
+        let maildir=getmaildir(username);
+        // let maildir=req.body.maildir;
+        let quota=0;
+        let storagebasedirectory="/var/vmail";
+        let storagenode="vmail1";
+        let created=getNowDate2();
+        let active='1';
+        let local_part="";
+    
+        let address=req.body.mail;
+        let forwarding=req.body.mail;
+        let is_forwarding=1;
+    
+        let sql_mailbox = "insert into mailbox(domain,username,password,name,maildir,quota,storagebasedirectory,storagenode,created,active,local_part) values(?,?,?,?,?,?,?,?,?,?,?)";
+        let sql_forwardings = "insert into forwardings(address,forwarding,domain,is_forwarding) values(?,?,?,?)";
+        
+        try {
+            let connection = yield mysql.createConnection( dbs );
+            let rows = yield connection.query(sql_mailbox,[domain,username,password,name,maildir,quota,storagebasedirectory,storagenode,created,active,local_part]);
+            let rows2 = yield connection.query(sql_forwardings,[address,forwarding,domain,is_forwarding]);
+            return cb(null,{success:true,results:rows});
+        } catch( error ) {
+            return cb(null,{success:false,errors:error});
+        }
+        })
+    
+})
+module.exports.add2 = co.wrap(function*(req,res,cb) {
     console.log( req.body );
 
     let domain="aone.social";
