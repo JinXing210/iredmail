@@ -67,8 +67,8 @@ var options = {
 }
 python.run('./apis/encodepass.py',options,function(err,data){
     console.log( err );
-    var pass = JSON.parse(data);
     console.log( data );
+    var pass = JSON.bodyParser(data);
     console.log( pass );
     console.log( pass.password );
 })
