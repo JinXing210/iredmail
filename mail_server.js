@@ -56,11 +56,27 @@ var getSSHA512Password = function(  password ) {
 var sshapass = getSSHA512Password("admin")
 console.log( sshapass);
 
+
+var python = require('python.node');
+var urandom = python.import('urandom')
+var b64encode = python.import('b64encode')
+var b64decode = python.import('b64decode')
+var sha512 = python.import('sha512')
+
+var p = "admin";
+var salt = urandom(8)
+var pw = sha512(p);
+pw.update(salt)
+
+console.log("{SSHA512}" + b64encode(pw.digest() + salt));
+
+
 // console.log( base64.encode(hash2.toString('hex')+salt));
 
 /*
-SSHA512}40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
+{SSHA512}40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
         40JVd+TFOMCfR8c5SbOdBemrp7PHlqwZIFt5wjZmqxGZQcT6CtQJrASY5MTv2rc9eKqP+FPFKQ8RRIySZQ3rt6cq3Am9YJyX
+        BBg4DlpGSHBUfHpIUSEMA04FRnkIbhQZICI6YFJXRTAKOT0sTiQSdioXfjdeVScnHxsEAxYUa0JCJkFxfgJgEzNmMGZkZjM5
 SSZcfC5mezdROx40Hx1kSyp5Jlt4bVIaPEsDGxgmdjE4Cl8SdTc2L2FBPCcmNRI/akkwOwR1bxtlcxIcKhM9QmJlNjZkY2Ey
 
 */
