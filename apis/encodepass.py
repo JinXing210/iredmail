@@ -28,7 +28,7 @@ def generate_ssha512_password(p):
         # Use SSHA password instead if python is older than 2.5.
         return generate_ssha_password(p)
 
-
+pass = ""
 pass = sys.args[1]
 enpass = generate_ssha512_password(pass)
 results = {
