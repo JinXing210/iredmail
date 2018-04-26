@@ -108,11 +108,13 @@ module.exports.add = co.wrap(function*(req,res,cb) {
         ]
     }
     python.run('./apis/encodepass.py',options,co.wrap(function*(err,data){
-        console.log( err );
-        console.log( data );
+        if( err )
+            return cb(null,{success:false,errors:err});
+        var pass = data[0];
+        console.log( pass );
         let domain="aone.social";
         let username=req.body.mail;
-        let password=getSSHA512Password(req.body.passwd);
+        let password=pass;
     
         let name="";
         let maildir=getmaildir(username);
