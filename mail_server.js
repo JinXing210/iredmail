@@ -37,7 +37,7 @@ var getRandomString = function(length) {
 }
 
 var base64 = require('js-base64').Base64
-const b64encode  = require('base64-encode-string');
+const b64encode2  = require('base64-encode-string');
 
 var getRandomString = function(length) {
     return crypto.randomBytes(Math.ceil(length)/2)
@@ -49,7 +49,7 @@ var getSSHA512Password = function(  password ) {
     var hash = crypto.createHmac('sha512',password);
     hash.update(salt);
     var pass = hash.digest().toString('ascii');
-    var sshapass =  b64encode(pass+salt);
+    var sshapass =  b64encode2(pass+salt);
     return "{SSHA512}"+sshapass;
 }
 
