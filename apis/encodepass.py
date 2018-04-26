@@ -1,3 +1,4 @@
+import sys
 from os import urandom
 from base64 import b64encode, b64decode
 
@@ -27,6 +28,11 @@ def generate_ssha512_password(p):
         # Use SSHA password instead if python is older than 2.5.
         return generate_ssha_password(p)
 
+
+pass = sys.argv[1]
+enpass = generate_ssha512_password(pass)
 results = {
-    "password": "aaaaaa"
+    "password": enpass
 }
+print(str(results))
+sys.stdout.flush()
