@@ -107,7 +107,7 @@ module.exports.add = co.wrap(function*(req,res,cb) {
             req.body.passwd
         ]
     }
-    python.run('./apis/encodepass.py',options,function(err,data){
+    python.run('./apis/encodepass.py',options,co.wrap(function*(err,data){
         console.log( err );
         console.log( data );
         let domain="aone.social";
@@ -139,7 +139,7 @@ module.exports.add = co.wrap(function*(req,res,cb) {
         } catch( error ) {
             return cb(null,{success:false,errors:error});
         }
-        })
+    }))
     
 })
 module.exports.add2 = co.wrap(function*(req,res,cb) {
