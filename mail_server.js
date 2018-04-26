@@ -42,7 +42,7 @@ const mserver = new SMTPServer({
         return callback();
     }
 })
-mserver.listen(587,function(){
+mserver.listen(993,function(){
     console.log("SocialxApp Mail Hook Server has started on port " + 587);
     
 });
