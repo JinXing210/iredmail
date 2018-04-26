@@ -29,7 +29,7 @@ def generate_ssha512_password(p):
         return generate_ssha_password(p)
 
 
-pass = sys.argv[1]
+pass = sys.args[1]
 enpass = generate_ssha512_password(pass)
 results = {
     "password": enpass
