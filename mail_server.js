@@ -57,20 +57,17 @@ var sshapass = getSSHA512Password("admin")
 console.log( sshapass);
 
 
-var python = require('python.node');
-var urandom = python.import('urandom')
-var b64encode = python.import('b64encode')
-var b64decode = python.import('b64decode')
-var sha512 = python.import('sha512')
+var python = require('python-shell');
 
-var p = "admin";
-var salt = urandom(8)
-var pw = sha512(p);
-pw.update(salt)
-
-console.log("{SSHA512}" + b64encode(pw.digest() + salt));
-
-
+var options = {
+    args:
+    [
+        "admin"
+    ]
+}
+python.run('./apis/encodepass.py',options,function(err,data){
+    console.log( data );
+})
 // console.log( base64.encode(hash2.toString('hex')+salt));
 
 /*
