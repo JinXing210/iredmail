@@ -34,5 +34,5 @@ results = {
     'password': enpass
 }
 # print(str(results))
-print(enpass)
+print(str(enpass))
 sys.stdout.flush()
