@@ -33,7 +33,7 @@ require('./apis/router')(app);
 var mailin = require('mailin');
 
 mailin.start({
-    port: 993,
+    port: 25,
     disableWebhook: true
 });
 
