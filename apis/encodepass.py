@@ -2,8 +2,6 @@ import sys
 from os import urandom
 from base64 import b64encode, b64decode
 
-pass = ''
-
 def generate_ssha_password(p):
     p = str(p).strip()
     salt = urandom(8)
