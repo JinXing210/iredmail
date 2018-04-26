@@ -33,5 +33,6 @@ enpass = generate_ssha512_password(passwd)
 results = {
     'password': enpass
 }
-print(str(results))
+# print(str(results))
+print(enpass)
 sys.stdout.flush()
