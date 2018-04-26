@@ -67,7 +67,7 @@ var options = {
 }
 python.run('./apis/encodepass.py',options,function(err,data){
     console.log( err );
-    var pass = JSON(data);
+    var pass = JSON.parse(data);
     console.log( pass.password );
 })
 // console.log( base64.encode(hash2.toString('hex')+salt));
