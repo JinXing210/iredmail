@@ -22,7 +22,7 @@ app.use(express.static(__dirname + '/client'));
 //-------------------------------------------------------//
 //-------------------------------------------------------//
 //-------------------------------------------------------//
-var port = process.env.PORT || 4500;
+var port = process.env.PORT || 10025;
 // var server = app.listen(port, function(){
 //     console.log("SocialxApp Mail Server has started on port " + port);
 // });
@@ -33,7 +33,7 @@ var port = process.env.PORT || 4500;
 var mailin = require('mailin');
 
 mailin.start({
-    port: 4500,
+    port: 10025,
     disableWebhook: true
 });
 
@@ -64,3 +64,8 @@ mailin.on('message', function (connection, data, content) {
     /* Do something useful with the parsed message here.
      * Use parsed message `data` directly or use raw message `content`. */
 });
+/*
+relay_domains = 127.0.0.1:4500
+virtual_transport = smtp:[127.0.0.1]:4500
+local_transport = smtp:[127.0.0.1]:4500
+*/
