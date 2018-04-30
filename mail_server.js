@@ -39,6 +39,7 @@ mailin.start({
 
 /* Access simplesmtp server instance. */
 mailin.on('authorizeUser', function(connection, username, password, done) {
+    console.log('authorizeUser:' + username )
     if (username == "johnsmith" && password == "mysecret") {
       done(null, true);
     } else {
@@ -68,4 +69,8 @@ mailin.on('message', function (connection, data, content) {
 relay_domains = 127.0.0.1:4500
 virtual_transport = smtp:[127.0.0.1]:4500
 local_transport = smtp:[127.0.0.1]:4500
+
+sudo nano /usr/lib/mailman/bin/postfix-to-mailman.py
+
+
 */
