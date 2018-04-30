@@ -34,7 +34,7 @@ var mailin = require('mailin');
 
 mailin.start({
     port: 4500,
-    disableWebhook: true
+    disableWebhook: false
 });
 
 /* Access simplesmtp server instance. */
