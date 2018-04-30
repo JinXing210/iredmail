@@ -22,7 +22,7 @@ app.use(express.static(__dirname + '/client'));
 //-------------------------------------------------------//
 //-------------------------------------------------------//
 //-------------------------------------------------------//
-var port = process.env.PORT || 10025;
+var port = process.env.PORT || 4500;
 // var server = app.listen(port, function(){
 //     console.log("SocialxApp Mail Server has started on port " + port);
 // });
@@ -33,7 +33,7 @@ var port = process.env.PORT || 10025;
 var mailin = require('mailin');
 
 mailin.start({
-    port: 10025,
+    port: 4500,
     disableWebhook: true
 });
 
