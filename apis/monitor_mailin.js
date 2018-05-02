@@ -109,6 +109,7 @@ let monitorMailin = co.wrap(function*(){
         }
         ;
     } catch( error ) {
+        console.log( error );
     }
 
     console.log("--- End Check email ---");
