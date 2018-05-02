@@ -112,7 +112,9 @@ let monitorMailin = co.wrap(function*(){
             console.log( last_time );
             console.log( filename );
             fs.readdirSync(mailinFolder).forEach(file => {
-                if( file.substr(0,filename.length) == filename)
+                let pre = file.substr(0,filename.length);
+                console.log( pre );
+                if( pre == filename)
                     console.log(file);
             })
         }
