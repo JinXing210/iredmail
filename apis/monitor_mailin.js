@@ -118,7 +118,13 @@ let monitorMailin = co.wrap(function*(){
                     let filePath = mailinFolder + file;
                     fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
                         if (!err) {
-                            console.log(data);
+                            let _data = JSON.parse(data);
+
+                            console.log(_data.From);
+                            console.log(_data.To);
+                            console.log(_data.Date);
+                            console.log(_data.Subject);
+                            console.log(_data['Content-Transfer-Encoding']);
                         } else {
                             console.log(err);
                         }
