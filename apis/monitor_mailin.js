@@ -113,7 +113,6 @@ let monitorMailin = co.wrap(function*(){
             console.log( filename );
             fs.readdirSync(mailinFolder).forEach(file => {
                 let pre = file.substr(0,filename.length);
-                console.log( pre );
                 if( pre == filename)
                     console.log(file);
             })
