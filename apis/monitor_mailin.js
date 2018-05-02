@@ -119,6 +119,7 @@ let monitorMailin = co.wrap(function*(){
                     fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
                         if (!err) {
                             let _data = JSON.parse(data);
+                            console.log(_data);
 
                             console.log(_data.From);
                             console.log(_data.To);
