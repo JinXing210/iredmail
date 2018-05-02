@@ -113,8 +113,17 @@ let monitorMailin = co.wrap(function*(){
             console.log( filename );
             fs.readdirSync(mailinFolder).forEach(file => {
                 let pre = file.substr(0,filename.length);
-                if( pre == filename)
+                if( pre == filename) {
                     console.log(file);
+                    let filePath = mailinFolder + file;
+                    fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
+                        if (!err) {
+                            console.log(data);
+                        } else {
+                            console.log(err);
+                        }
+                    });                    
+                }
             })
         }
         yield connection.end();
