@@ -4,6 +4,7 @@ const crypto  = require('crypto');
 const co      = require('co');
 const events  = require('events');
 const mysql   = require('promise-mysql');
+const fs      = require('fs');
 
 var neo4j = require('neo4j');
 var db = new neo4j.GraphDatabase('http://app_dev:rklaxcdkv@34.238.244.231:7474')
@@ -104,6 +105,12 @@ let monitorMailin = co.wrap(function*(){
 
             // rows[i].time_iso;
             last_time = rows[i].time_iso;
+
+            let mailinFolder = rows_mailbox[0].storagebasedirectory + "/" + rows_mailbox[0].storagenode + "/" + rows_mailbox[0].maildir + "/";
+            console.log( mailinFolder );
+            fs.readdirSync(mailinFolder).forEach(file => {
+                console.log(file);
+            })
         }
         yield connection.end();
         yield connection2.end();
