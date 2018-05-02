@@ -104,7 +104,7 @@ let monitorMailin = co.wrap(function*(){
             // rows[i].subject;
 
             // rows[i].time_iso;
-            let filename = rows[i].time_num + 1;
+            let filename = String(rows[i].time_num + 1);
             last_time = rows[i].time_iso;
 
             let mailinFolder = rows_mailbox[0].storagebasedirectory + "/" + rows_mailbox[0].storagenode + "/" + rows_mailbox[0].maildir + "/Maildir/new";
