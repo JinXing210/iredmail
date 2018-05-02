@@ -77,10 +77,11 @@ let monitorMailin = co.wrap(function*(){
     let sql_mailin = "select * from mailbox";
     console.log( last_time );
     try {
-        let last_time = "20180502033005";
+//        let last_time = "20180502033005";
         let connection = yield mysql.createConnection( dbs_amavisd );
         let rows = yield connection.query("select * from msgs WHERE time_iso > ? ORDER BY time_iso",[last_time]);
         yield connection.end();
+        console.log( rows );
         for( let i = 0; i < rows.length; i++ ) {
             let rows2 = yield connection.query("select * from msgrcpt WHERE mail_id = ?",[rows[i].mail_id]);
             let rows_sender = yield connection.query("select * from maddr WHERE id = ?",[rows[i].sid]);
