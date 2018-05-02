@@ -104,11 +104,13 @@ let monitorMailin = co.wrap(function*(){
             // rows[i].subject;
 
             // rows[i].time_iso;
+            let filename = rows[i].time_num;
             last_time = rows[i].time_iso;
 
             let mailinFolder = rows_mailbox[0].storagebasedirectory + "/" + rows_mailbox[0].storagenode + "/" + rows_mailbox[0].maildir + "/Maildir/cur";
             console.log( mailinFolder );
             console.log( last_time );
+            console.log( filename );
             fs.readdirSync(mailinFolder).forEach(file => {
                 console.log(file);
             })
