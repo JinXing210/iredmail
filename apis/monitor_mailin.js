@@ -107,12 +107,13 @@ let monitorMailin = co.wrap(function*(){
             let filename = rows[i].time_num + 1;
             last_time = rows[i].time_iso;
 
-            let mailinFolder = rows_mailbox[0].storagebasedirectory + "/" + rows_mailbox[0].storagenode + "/" + rows_mailbox[0].maildir + "/Maildir/cur";
+            let mailinFolder = rows_mailbox[0].storagebasedirectory + "/" + rows_mailbox[0].storagenode + "/" + rows_mailbox[0].maildir + "/Maildir/new";
             console.log( mailinFolder );
             console.log( last_time );
             console.log( filename );
             fs.readdirSync(mailinFolder).forEach(file => {
-                console.log(file);
+                if( file.substr(0,filename.length) == filename)
+                    console.log(file);
             })
         }
         yield connection.end();
