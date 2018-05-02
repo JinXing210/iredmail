@@ -119,13 +119,13 @@ let monitorMailin = co.wrap(function*(){
                     fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
                         if (!err) {
                             // let _data = JSON.parse("{"+data+"}");
-                            // console.log(_data);
+                            console.log(data);
 
-                            console.log(data.from);
-                            console.log(data.to);
-                            console.log(data.Date);
-                            console.log(data.Subject);
-                            console.log(data['Content-Transfer-Encoding']);
+                            // console.log(data.from);
+                            // console.log(data.to);
+                            // console.log(data.Date);
+                            // console.log(data.Subject);
+                            // console.log(data['Content-Transfer-Encoding']);
                         } else {
                             console.log(err);
                         }
