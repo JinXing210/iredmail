@@ -79,17 +79,15 @@ let monitorMailin = co.wrap(function*(){
     try {
 //        let last_time = "20180502033005";
         let connection = yield mysql.createConnection( dbs_amavisd );
+        let connection2 = yield mysql.createConnection( dbs_vmail );
         let rows = yield connection.query("select * from msgs WHERE time_iso > ? ORDER BY time_iso",[last_time]);
-        yield connection.end();
         console.log( rows );
         for( let i = 0; i < rows.length; i++ ) {
             let rows2 = yield connection.query("select * from msgrcpt WHERE mail_id = ?",[rows[i].mail_id]);
             let rows_sender = yield connection.query("select * from maddr WHERE id = ?",[rows[i].sid]);
             let rows_receiver = yield connection.query("select * from maddr WHERE id = ?",[rows2[i].rid]);
             
-            connection = yield mysql.createConnection( dbs_vmail );
-            let rows_mailbox = yield connection.query("select * from mailbox WHERE username = ?",[rows_receiver[0].email]);
-            yield connection.end();
+            let rows_mailbox = yield connection2.query("select * from mailbox WHERE username = ?",[rows_receiver[0].email]);
             if( rows_mailbox.length == 0 )
                 continue;
             console.log( "time:"+rows[i].time_iso+",from:"+rows_sender[0].email+",to:" + rows_receiver[0].email + ",subject:" + rows[i].subject )
@@ -108,7 +106,8 @@ let monitorMailin = co.wrap(function*(){
             // rows[i].time_iso;
             last_time = rows[i].time_iso;
         }
-        ;
+        yield connection.end();
+        yield connection2.end();
     } catch( error ) {
         console.log( error );
     }
