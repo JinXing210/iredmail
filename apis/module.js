@@ -96,7 +96,7 @@ module.exports.getAll = co.wrap(function*(req,res,cb) {
 function getmaildir(mail) {
     let maildir = "";
     var res = mail.split("@");
-    return res[0] + "-" + getNowDate();
+    return res[0] + "-" + getNowDate() + "/";
 }
 module.exports.add = co.wrap(function*(req,res,cb) {
     console.log( req.body );
