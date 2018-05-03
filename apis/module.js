@@ -122,7 +122,7 @@ module.exports.add = co.wrap(function*(req,res,cb) {
     let real_email = getmailaddr(email);
     console.log( real_email );
     let query = "MATCH (mail:Mail{mail:'"+real_email+"'}) RETURN mail";
-    let mail = yield dbs.query(query);
+    let mail = yield dbs.run(query);
     if( mail.errors ) {
         return {success:false,error:{ msg:"NEO4J or CQLerror"}};
     }
@@ -131,7 +131,7 @@ module.exports.add = co.wrap(function*(req,res,cb) {
             return {success:false,error:{ msg:"Already added"}};
     }
     query = "CREATE (mail:Mail{mail:'"+real_email+"',password:'" + password + "'} ) RETURN mail"        
-    mail = yield dbs.query(query);
+    mail = yield dbs.run(query);
     if( mail.errors ) {
         return {success:false,error:{ msg:"NEO4J or CQLerror"}};
     }
