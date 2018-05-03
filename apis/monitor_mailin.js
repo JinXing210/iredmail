@@ -86,7 +86,8 @@ mailin.on('message', function (connection, data, content) {
     console.log(content);
 
     console.log('------------parsedata');
-    let parsedata = JSON.parse(data);
+    // let parsedata = JSON.parse(data);
+    let parsedata = (data);
     console.log( parsedata.from );
     console.log( parsedata.to );
     console.log( parsedata.subject );
