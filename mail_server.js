@@ -66,3 +66,15 @@ mailin.on('message', function (connection, data, content) {
     /* Do something useful with the parsed message here.
      * Use parsed message `data` directly or use raw message `content`. */
 });
+
+const sendmail = require('sendmail')();
+sendmail({
+    from:'no-reply@aone.social',
+    to:'lumeihui210@outlook.com',
+    subject:'Hello, noreply',
+    text:'This is a test(text)',
+    html:'This is a test(HTML)',
+},function(err,reply){
+    console.log( err && err.stack);
+    console.dir(reply);
+})
