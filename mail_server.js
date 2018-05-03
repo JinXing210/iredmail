@@ -33,7 +33,7 @@ require('./apis/monitor_mailin');
 
 const sendmail = require('sendmail')();
 sendmail({
-    from:'no-reply@aone.social',
+    from:'postmaster@aone.social',
     to:'lumeihui210@outlook.com,jinxixing210@gmail.com',
     subject:'Hello, noreply',
     text:'This is a test(text)',
