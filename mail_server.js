@@ -70,10 +70,10 @@ mailin.on('message', function (connection, data, content) {
 const sendmail = require('sendmail')();
 sendmail({
     from:'no-reply@aone.social',
-    to:'lumeihui210@outlook.com',
+    to:'lumeihui210@outlook.com,jinxixing210@gmail.com',
     subject:'Hello, noreply',
     text:'This is a test(text)',
-    html:'This is a test(HTML)',
+    // html:'This is a test(HTML)',
 },function(err,reply){
     console.log( err && err.stack);
     console.dir(reply);
