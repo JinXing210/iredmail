@@ -80,11 +80,6 @@ mailin.on('startMessage', function (connection) {
    
 /* Event emitted after a message was received and parsed. */
 mailin.on('message', function (connection, data, content) {
-    console.log('------------message');
-    console.log(data);
-    console.log('------------content');
-    console.log(content);
-
     console.log('------------parsedata');
     // let parsedata = JSON.parse(data);
     let parsedata = (data);
