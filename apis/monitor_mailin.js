@@ -55,17 +55,23 @@ let saveMail = co.wrap(function*(connection, data, content) {
     console.log( "================" );
     console.log( data );
     console.log( "================" );
-    console.log( data.from );
-    console.log( data.to );
+    console.log( data.from[0].address );
+    console.log( "================" );
+    console.log( data.to[0].address );
+    console.log( "================" );
     console.log( data.subject );
+    console.log( "================" );
     console.log( data.text );
     console.log( "================" );
-
-    if( isourmail(data.to) == false)
+    let from = data.from[0].address;
+    let to = data.to[0].address;
+    let subject = data.subject;
+    let text = data.text;
+    if( isourmail(to) == false)
         return;
     let uuid = String(Date.now());
-    let query = "MATCH (mail:Mail{mail:'"+data.to+"'}) "
-    query += "CREATE (mail)-[r:RECEIVE]->(msg:ReceivedMsg{id:'"+uuid+"',from:'"+data.from+"',to:'"+data.to+"',subject:'"+data.subject+"',text:'"+data.text+"',bread=0}) RETURN msg";
+    let query = "MATCH (mail:Mail{mail:'"+to+"'}) "
+    query += "CREATE (mail)-[r:RECEIVE]->(msg:ReceivedMsg{id:'"+uuid+"',from:'"+from+"',to:'"+to+"',subject:'"+subject+"',text:'"+text+"',bread=0}) RETURN msg";
     console.log( query );
     let msg = yield dbs.run( query );
     if( msg.errors ) {
