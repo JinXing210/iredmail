@@ -8,6 +8,9 @@ const b64encode  = require('base64-encode-string');
 // var urandom = new require('randbytes');
 // var random = urandom.urandom.getInstance();
 
+const dbs   = require('../apis/neo4j_mail');
+
+
 var python = require('python-shell');
 
 var dbs = {
@@ -98,7 +101,45 @@ function getmaildir(mail) {
     var res = mail.split("@");
     return res[0] + "-" + getNowDate() + "/";
 }
+
+function getmailaddr(mail) {
+    let maildir = "";
+    var res = mail.split("@");
+    return res + "@aone.social";
+}
+
 module.exports.add = co.wrap(function*(req,res,cb) {
+    console.log( req.body );
+    let email   = req.body.email;
+    let password   = req.body.password;
+    // mandatory
+    if( validate(email) == false ) {
+        return cb(null,{success:false,errors:{msg:'there is no email'}});
+    }
+    if( validate(password) == false ) {
+        return cb(null,{success:false,errors:{msg:'there is no password'}});
+    }
+    let real_email = getmailaddr(email);
+    console.lop( real_email );
+    let query = "MATCH (mail:Mail{mail:'"+real_email+"'}) RETURN mail";
+    let mail = yield dbs.query(query);
+    if( mail.errors ) {
+        return {success:false,error:{ msg:"NEO4J or CQLerror"}};
+    }
+    else {
+        if( mail.results.records.length )
+            return {success:false,error:{ msg:"Already added"}};
+    }
+    query = "CREATE (mail:Mail{mail:'"+real_email+"',password:'" + password + "'} ) RETURN mail"        
+    mail = yield dbs.query(query);
+    if( mail.errors ) {
+        return {success:false,error:{ msg:"NEO4J or CQLerror"}};
+    }
+    return {success:true,data:{mail:real_email}};
+    
+})
+
+module.exports.add3 = co.wrap(function*(req,res,cb) {
     console.log( req.body );
 
     var options = {
