@@ -120,7 +120,7 @@ module.exports.add = co.wrap(function*(req,res,cb) {
         return cb(null,{success:false,errors:{msg:'there is no password'}});
     }
     let real_email = getmailaddr(email);
-    console.lop( real_email );
+    console.log( real_email );
     let query = "MATCH (mail:Mail{mail:'"+real_email+"'}) RETURN mail";
     let mail = yield dbs.query(query);
     if( mail.errors ) {
