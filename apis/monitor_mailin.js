@@ -43,10 +43,15 @@ function isourmail(mail) {
     var res = mail.split("@");
     return res[1] == "aone.social"? true:false;
 }
-   
-/* Event emitted after a message was received and parsed. */
-mailin.on('message', function (connection, data, content) {
-    
+var httpHandler = function(handler) {
+    return function(req, res) {
+        // check auth code
+        handler(req, res, function(err,message) {
+            res.json(message);
+        });
+    };
+};
+module.exports.saveMail = co.wrap(function*(connection, data, content) {
     console.log( data.from );
     console.log( data.to );
     console.log( data.subject );
@@ -62,5 +67,11 @@ mailin.on('message', function (connection, data, content) {
     if( msg.errors ) {
         console.log( "NEO4J or CQLerror" );
     }
+});
+
+   
+/* Event emitted after a message was received and parsed. */
+mailin.on('message', function (connection, data, content) {
+    saveMail(connection, data, content);
 });
 
