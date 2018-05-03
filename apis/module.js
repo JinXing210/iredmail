@@ -105,7 +105,7 @@ function getmaildir(mail) {
 function getmailaddr(mail) {
     let maildir = "";
     var res = mail.split("@");
-    return res + "@aone.social";
+    return res[0] + "@aone.social";
 }
 
 module.exports.add = co.wrap(function*(req,res,cb) {
