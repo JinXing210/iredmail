@@ -189,3 +189,40 @@ module.exports.remove = co.wrap(function*(req,res,cb) {
 
     return cb(null,{success:true,errors:'there is no error'});
 });
+
+const sendmail = require('sendmail')();
+
+module.exports.send = co.wrap(function*(req,res,cb) {
+    console.log( req.body );
+    let from   = req.body.from;
+    let to   = req.body.to;
+    let subject   = req.body.subject;
+    let text   = req.body.text;
+    // mandatory
+    if( validate(from) == false ) {
+        return {success:false,errors:{msg:'there is no from'}};
+    }
+    if( validate(to) == false ) {
+        return {success:false,errors:{msg:'there is no to'}};
+    }
+    if( validate(subject) == false ) {
+        return {success:false,errors:{msg:'there is no subject'}};
+    }
+    if( validate(text) == false ) {
+        return {success:false,errors:{msg:'there is no text'}};
+    }
+    
+    sendmail({
+        from:from,
+        to:to,
+        subject:subject,
+        text:text,
+        // html:'This is a test(HTML)',
+    },function(err,reply){
+        console.log( err && err.stack);
+        console.dir(reply);
+    })
+    
+    return cb(null,{success:true,errors:'there is no error'});
+});
+

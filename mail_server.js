@@ -30,15 +30,3 @@ var server = app.listen(port, function(){
 require('./apis/router')(app);
 require('./apis/monitor_mailin');
 
-
-const sendmail = require('sendmail')();
-sendmail({
-    from:'postmaster@aone.social',
-    to:'lumeihui210@outlook.com,jinxixing210@gmail.com',
-    subject:'Hello, noreply',
-    text:'This is a test(text)',
-    // html:'This is a test(HTML)',
-},function(err,reply){
-    console.log( err && err.stack);
-    console.dir(reply);
-})

@@ -20,6 +20,7 @@ module.exports = function(app) {
     app.post('/api/mail/update/',httpHandler(api_handler.update));
     app.post('/api/mail/remove/',httpHandler(api_handler.remove));
     //----------------------------------------------------------------------//
+    app.post('/api/mail/send/',httpHandler(api_handler.sendMail));
 
 }
 
