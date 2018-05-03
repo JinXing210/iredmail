@@ -48,101 +48,41 @@ module.exports.initDB = function() {
 }
 
 
-var dbs_vmail = {
-    'host'      :   '127.0.0.1',
-    'port'      :   '3306',
-    'database'  :   'vmail',
-    'user'      :   'root',
-    'password'  :   'admin'
-}
-var dbs_amavisd = {
-    'host'      :   '127.0.0.1',
-    'port'      :   '3306',
-    'database'  :   'amavisd',
-    'user'      :   'root',
-    'password'  :   'admin'
-}
+var mailin = require('mailin');
 
-var eventEmitter = new events.EventEmitter();
-let last_time = "00000000000000";
+mailin.start({
+    port: 25,
+    disableWebhook: true
+});
 
-eventEmitter.on('start',function(){
-    setImmediate(() => {
-        monitorMailin();
-    })
-})
-
-let monitorMailin = co.wrap(function*(){
-    console.log("--- Start Check email ---");
-
-    let sql_mailin = "select * from mailbox";
-    console.log( last_time );
-    try {
-//        let last_time = "20180502033005";
-        let connection = yield mysql.createConnection( dbs_amavisd );
-        let connection2 = yield mysql.createConnection( dbs_vmail );
-        let rows = yield connection.query("select * from msgs WHERE time_iso > ? ORDER BY time_iso",[last_time]);
-        for( let i = 0; i < rows.length; i++ ) {
-            let rows2 = yield connection.query("select * from msgrcpt WHERE mail_id = ?",[rows[i].mail_id]);
-            let rows_sender = yield connection.query("select * from maddr WHERE id = ?",[rows[i].sid]);
-            let rows_receiver = yield connection.query("select * from maddr WHERE id = ?",[rows2[0].rid]);
-            
-            let rows_mailbox = yield connection2.query("select * from mailbox WHERE username = ?",[rows_receiver[0].email]);
-            if( rows_mailbox.length == 0 )
-                continue;
-            console.log( "time:"+rows[i].time_iso+",from:"+rows_sender[0].email+",to:" + rows_receiver[0].email + ",subject:" + rows[i].subject )
-            // rows_mailbox[0].storagebasedirectory
-            // rows_mailbox[0].storagenode
-            // rows_mailbox[0].maildir
-            
-            // rows_sender[0].email
-            // rows_receiver[0].email
-            // rows2[0].rid;
-            // rows[i].mail_id;
-            // rows[i].from_addr;
-            // rows[i].sid;
-            // rows[i].subject;
-
-            // rows[i].time_iso;
-            let filename = String(rows[i].time_num + 1);
-            last_time = rows[i].time_iso;
-
-            let mailinFolder = rows_mailbox[0].storagebasedirectory + "/" + rows_mailbox[0].storagenode + "/" + rows_mailbox[0].maildir + "/Maildir/new/";
-            console.log( mailinFolder );
-            console.log( last_time );
-            console.log( filename );
-            fs.readdirSync(mailinFolder).forEach(file => {
-                let pre = file.substr(0,filename.length);
-                if( pre == filename) {
-                    console.log(file);
-                    let filePath = mailinFolder + file;
-                    fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
-                        if (!err) {
-                            // let _data = JSON.parse("{"+data+"}");
-                            console.log(data);
-
-                            // console.log(data.from);
-                            // console.log(data.to);
-                            // console.log(data.Date);
-                            // console.log(data.Subject);
-                            // console.log(data['Content-Transfer-Encoding']);
-                        } else {
-                            console.log(err);
-                        }
-                    });                    
-                }
-            })
-        }
-        yield connection.end();
-        yield connection2.end();
-    } catch( error ) {
-        console.log( error );
+/* Access simplesmtp server instance. */
+mailin.on('authorizeUser', function(connection, username, password, done) {
+    console.log('------------authorizeUser:' + username )
+    if (username == "johnsmith" && password == "mysecret") {
+      done(null, true);
+    } else {
+      done(new Error("Unauthorized!"), false);
     }
+});
+   
+/* Event emitted when a connection with the Mailin smtp server is initiated. */
+mailin.on('startMessage', function (connection) {
+    /* connection = {
+        from: 'sender@somedomain.com',
+        to: 'someaddress@yourdomain.com',
+        id: 't84h5ugf',
+        authentication: { username: null, authenticated: false, status: 'NORMAL' }
+      }
+    }; */
+    console.log('------------startMessage');
+    console.log(connection);
+});
+   
+/* Event emitted after a message was received and parsed. */
+mailin.on('message', function (connection, data, content) {
+    console.log('------------message');
+    console.log(data);
+    /* Do something useful with the parsed message here.
+     * Use parsed message `data` directly or use raw message `content`. */
+});
 
-    console.log("--- End Check email ---");
-    setTimeout( function() {
-        eventEmitter.emit('start');
-    },1000*60);
-})
-
-eventEmitter.emit('start');
