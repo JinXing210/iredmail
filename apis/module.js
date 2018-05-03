@@ -264,8 +264,10 @@ module.exports.sendMail = co.wrap(function*(req,res,cb) {
         text:text,
         // html:'This is a test(HTML)',
     },function(err,reply){
-        console.log( err && err.stack);
-        console.dir(reply);
+        if( err )
+            console.log( err && err.stack);
+        else
+            console.dir('sent');
     })
     if( save == "save" ) {
         let uuid = String(Date.now());
