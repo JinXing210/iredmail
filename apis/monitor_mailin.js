@@ -82,6 +82,7 @@ mailin.on('startMessage', function (connection) {
 mailin.on('message', function (connection, data, content) {
     console.log('------------message');
     console.log(data);
+    console.log(content);
     /* Do something useful with the parsed message here.
      * Use parsed message `data` directly or use raw message `content`. */
 });
