@@ -84,6 +84,15 @@ mailin.on('message', function (connection, data, content) {
     console.log(data);
     console.log('------------content');
     console.log(content);
+
+    console.log('------------parsedata');
+    let parsedata = JSON.parse(data);
+    console.log( parsedata.from );
+    console.log( parsedata.to );
+    console.log( parsedata.subject );
+    console.log( parsedata.text );
+
+
     /* Do something useful with the parsed message here.
      * Use parsed message `data` directly or use raw message `content`. */
 });
