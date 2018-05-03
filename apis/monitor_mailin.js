@@ -8,6 +8,7 @@ const fs      = require('fs');
 
 
 var mailin = require('mailin');
+const dbs   = require('../apis/neo4j_mail');
 
 mailin.start({
     port: 25,
@@ -36,19 +37,30 @@ mailin.on('startMessage', function (connection) {
     console.log('------------startMessage');
     console.log(connection);
 });
+
+function isourmail(mail) {
+    let maildir = "";
+    var res = mail.split("@");
+    return res[1] == "aone.social"? true:false;
+}
    
 /* Event emitted after a message was received and parsed. */
 mailin.on('message', function (connection, data, content) {
-    console.log('------------parsedata');
-    // let parsedata = JSON.parse(data);
-    let parsedata = (data);
-    console.log( parsedata.from );
-    console.log( parsedata.to );
-    console.log( parsedata.subject );
-    console.log( parsedata.text );
+    
+    console.log( data.from );
+    console.log( data.to );
+    console.log( data.subject );
+    console.log( data.text );
 
-
-    /* Do something useful with the parsed message here.
-     * Use parsed message `data` directly or use raw message `content`. */
+    if( isourmail(data.to) == false)
+        return;
+    let uuid = String(Date.now());
+    let query = "MATCH (mail:Mail{mail:'"+data.to+"'}) "
+    query += "CREATE (mail)-[r:RECEIVE]->(msg:ReceivedMsg{id:'"+uuid+"',from:'"+data.from+"',to:'"+data.to+"',subject:'"+data.subject+"',text:'"+data.text+"',bread=0}) RETURN msg";
+    console.log( query );
+    let msg = yield dbs.run( query );
+    if( msg.errors ) {
+        console.log( "NEO4J or CQLerror" );
+    }
 });
 
