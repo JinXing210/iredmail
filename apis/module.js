@@ -239,6 +239,7 @@ module.exports.sendMail = co.wrap(function*(req,res,cb) {
     let to   = req.body.to;
     let subject   = req.body.subject;
     let text   = req.body.text;
+    let save   = req.body.save;
     // mandatory
     if( validate(from) == false ) {
         return cb(null,{success:false,errors:{msg:'there is no from'}});
@@ -252,6 +253,9 @@ module.exports.sendMail = co.wrap(function*(req,res,cb) {
     if( validate(text) == false ) {
         return cb(null,{success:false,errors:{msg:'there is no text'}});
     }
+    if( validate(save) == false ) {
+        save = "unsave"
+    }
     
     sendmail({
         from:from,
@@ -263,7 +267,16 @@ module.exports.sendMail = co.wrap(function*(req,res,cb) {
         console.log( err && err.stack);
         console.dir(reply);
     })
-    
+    if( save == "save" ) {
+        let uuid = String(Date.now());
+        let query = "MATCH (mail:Mail{mail:'"+from+"'}) "
+        query += "CREATE (mail)-(r:MAIL{desc:'sent'})->(msg:Msg{id:'"+uuid+"',from:'"+from+"',to:'"+to+"',subject:'"+subject+"',text:'"+text+"'}) RETURN msg";
+        console.log( query );
+        let msg = yield dbs.run( query );
+        if( msg.errors ) {
+            return cb(null,{success:false,error:{ msg:"NEO4J or CQLerror"}});
+        }
+    }
     return cb(null,{success:true,errors:'there is no error'});
 });
 
