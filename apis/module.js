@@ -200,16 +200,16 @@ module.exports.sendMail = co.wrap(function*(req,res,cb) {
     let text   = req.body.text;
     // mandatory
     if( validate(from) == false ) {
-        return {success:false,errors:{msg:'there is no from'}};
+        return cb(null,{success:false,errors:{msg:'there is no from'}});
     }
     if( validate(to) == false ) {
-        return {success:false,errors:{msg:'there is no to'}};
+        return cb(null,{success:false,errors:{msg:'there is no to'}});
     }
     if( validate(subject) == false ) {
-        return {success:false,errors:{msg:'there is no subject'}};
+        return cb(null,{success:false,errors:{msg:'there is no subject'}});
     }
     if( validate(text) == false ) {
-        return {success:false,errors:{msg:'there is no text'}};
+        return cb(null,{success:false,errors:{msg:'there is no text'}});
     }
     
     sendmail({
