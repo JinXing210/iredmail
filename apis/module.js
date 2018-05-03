@@ -270,7 +270,7 @@ module.exports.sendMail = co.wrap(function*(req,res,cb) {
     if( save == "save" ) {
         let uuid = String(Date.now());
         let query = "MATCH (mail:Mail{mail:'"+from+"'}) "
-        query += "CREATE (mail)-(r:MAIL{desc:'sent'})->(msg:Msg{id:'"+uuid+"',from:'"+from+"',to:'"+to+"',subject:'"+subject+"',text:'"+text+"'}) RETURN msg";
+        query += "CREATE (mail)-[r:SENT]->(msg:Msg{id:'"+uuid+"',from:'"+from+"',to:'"+to+"',subject:'"+subject+"',text:'"+text+"'}) RETURN msg";
         console.log( query );
         let msg = yield dbs.run( query );
         if( msg.errors ) {
