@@ -128,14 +128,14 @@ module.exports.add = co.wrap(function*(req,res,cb) {
     }
     else {
         if( mail.results.records.length )
-            return {success:false,error:{ msg:"Already added"}};
+            return cb(null,{success:false,error:{ msg:"Already added"}});
     }
     query = "CREATE (mail:Mail{mail:'"+real_email+"',password:'" + password + "'} ) RETURN mail"        
     mail = yield dbs.run(query);
     if( mail.errors ) {
-        return {success:false,error:{ msg:"NEO4J or CQLerror"}};
+        return cb(null,{success:false,error:{ msg:"NEO4J or CQLerror"}});
     }
-    return {success:true,data:{mail:real_email}};
+    return cb(null,{success:true,data:{mail:real_email}});
     
 })
 
