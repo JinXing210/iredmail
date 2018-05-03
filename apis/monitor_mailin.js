@@ -66,12 +66,12 @@ let saveMail = co.wrap(function*(connection, data, content) {
     let from = data.from[0].address;
     let to = data.to[0].address;
     let subject = data.subject;
-    let text = data.text;
+    let text = String(data.text);
     if( isourmail(to) == false)
         return;
     let uuid = String(Date.now());
     let query = "MATCH (mail:Mail{mail:'"+to+"'}) "
-    query += "CREATE (mail)-[r:RECEIVE]->(msg:ReceivedMsg{id:'"+uuid+"',from:'"+from+"',to:'"+to+"',subject:'"+subject+"',text:'"+text+"',bread=0}) RETURN msg";
+    query += "CREATE (mail)-[r:RECEIVE]->(msg:ReceivedMsg{id:'"+uuid+"',from:'"+from+"',to:'"+to+"',subject:'"+subject+"',text:'"+text+"',bread:0}) RETURN msg";
     console.log( query );
     let msg = yield dbs.run( query );
     if( msg.errors ) {
