@@ -192,7 +192,7 @@ module.exports.remove = co.wrap(function*(req,res,cb) {
 
 const sendmail = require('sendmail')();
 
-module.exports.send = co.wrap(function*(req,res,cb) {
+module.exports.sendMail = co.wrap(function*(req,res,cb) {
     console.log( req.body );
     let from   = req.body.from;
     let to   = req.body.to;
