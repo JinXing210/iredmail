@@ -51,7 +51,7 @@ var httpHandler = function(handler) {
         });
     };
 };
-module.exports.saveMail = co.wrap(function*(connection, data, content) {
+let saveMail = co.wrap(function*(connection, data, content) {
     console.log( data.from );
     console.log( data.to );
     console.log( data.subject );
