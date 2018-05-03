@@ -11,31 +11,31 @@ const b64encode  = require('base64-encode-string');
 const dbs   = require('../apis/neo4j_mail');
 
 
-var python = require('python-shell');
+// var python = require('python-shell');
 
-var dbs = {
-    'host'      :   '127.0.0.1',
-    'port'      :   '3306',
-    'database'  :   'vmail',
-    'user'      :   'root',
-    'password'  :   'admin'
-}
+// var dbs = {
+//     'host'      :   '127.0.0.1',
+//     'port'      :   '3306',
+//     'database'  :   'vmail',
+//     'user'      :   'root',
+//     'password'  :   'admin'
+// }
 
 
-var getRandomString = function(length) {
-    return crypto.randomBytes(Math.ceil(length)/2)
-                 .toString('hex')
-                 .slice(0,length);
-}
-var getSSHA512Password = function(  password ) {
-    var salt = getRandomString(8);
-    var hash = crypto.createHmac('sha512',password);
-    hash.update(salt);
-    var pass = hash.digest().toString('ascii');
-    // var sshapass =  base64.encode(pass+salt);
-    var sshapass =  b64encode(pass+salt);
-    return "{SSHA512}"+sshapass;
-}
+// var getRandomString = function(length) {
+//     return crypto.randomBytes(Math.ceil(length)/2)
+//                  .toString('hex')
+//                  .slice(0,length);
+// }
+// var getSSHA512Password = function(  password ) {
+//     var salt = getRandomString(8);
+//     var hash = crypto.createHmac('sha512',password);
+//     hash.update(salt);
+//     var pass = hash.digest().toString('ascii');
+//     // var sshapass =  base64.encode(pass+salt);
+//     var sshapass =  b64encode(pass+salt);
+//     return "{SSHA512}"+sshapass;
+// }
 
 function validate(param) {
     if (  !param || param === '' ) {
@@ -139,85 +139,85 @@ module.exports.add = co.wrap(function*(req,res,cb) {
     
 })
 
-module.exports.add3 = co.wrap(function*(req,res,cb) {
-    console.log( req.body );
+// module.exports.add3 = co.wrap(function*(req,res,cb) {
+//     console.log( req.body );
 
-    var options = {
-        args:
-        [
-            req.body.passwd
-        ]
-    }
-    python.run('./apis/encodepass.py',options,co.wrap(function*(err,data){
-        if( err )
-            return cb(null,{success:false,errors:err});
-        var pass = data[0];
-        console.log( pass );
-        let domain="aone.social";
-        let username=req.body.mail;
-        let password=pass;
+//     var options = {
+//         args:
+//         [
+//             req.body.passwd
+//         ]
+//     }
+//     python.run('./apis/encodepass.py',options,co.wrap(function*(err,data){
+//         if( err )
+//             return cb(null,{success:false,errors:err});
+//         var pass = data[0];
+//         console.log( pass );
+//         let domain="aone.social";
+//         let username=req.body.mail;
+//         let password=pass;
     
-        let name="";
-        let maildir=getmaildir(username);
-        // let maildir=req.body.maildir;
-        let quota=0;
-        let storagebasedirectory="/var/vmail";
-        let storagenode="vmail1";
-        let created=getNowDate2();
-        let active='1';
-        let local_part="";
+//         let name="";
+//         let maildir=getmaildir(username);
+//         // let maildir=req.body.maildir;
+//         let quota=0;
+//         let storagebasedirectory="/var/vmail";
+//         let storagenode="vmail1";
+//         let created=getNowDate2();
+//         let active='1';
+//         let local_part="";
     
-        let address=req.body.mail;
-        let forwarding=req.body.mail;
-        let is_forwarding=1;
+//         let address=req.body.mail;
+//         let forwarding=req.body.mail;
+//         let is_forwarding=1;
     
-        let sql_mailbox = "insert into mailbox(domain,username,password,name,maildir,quota,storagebasedirectory,storagenode,created,active,local_part) values(?,?,?,?,?,?,?,?,?,?,?)";
-        let sql_forwardings = "insert into forwardings(address,forwarding,domain,is_forwarding) values(?,?,?,?)";
+//         let sql_mailbox = "insert into mailbox(domain,username,password,name,maildir,quota,storagebasedirectory,storagenode,created,active,local_part) values(?,?,?,?,?,?,?,?,?,?,?)";
+//         let sql_forwardings = "insert into forwardings(address,forwarding,domain,is_forwarding) values(?,?,?,?)";
         
-        try {
-            let connection = yield mysql.createConnection( dbs );
-            let rows = yield connection.query(sql_mailbox,[domain,username,password,name,maildir,quota,storagebasedirectory,storagenode,created,active,local_part]);
-            let rows2 = yield connection.query(sql_forwardings,[address,forwarding,domain,is_forwarding]);
-            return cb(null,{success:true,results:rows});
-        } catch( error ) {
-            return cb(null,{success:false,errors:error});
-        }
-    }))
+//         try {
+//             let connection = yield mysql.createConnection( dbs );
+//             let rows = yield connection.query(sql_mailbox,[domain,username,password,name,maildir,quota,storagebasedirectory,storagenode,created,active,local_part]);
+//             let rows2 = yield connection.query(sql_forwardings,[address,forwarding,domain,is_forwarding]);
+//             return cb(null,{success:true,results:rows});
+//         } catch( error ) {
+//             return cb(null,{success:false,errors:error});
+//         }
+//     }))
     
-})
-module.exports.add2 = co.wrap(function*(req,res,cb) {
-    console.log( req.body );
+// })
+// module.exports.add2 = co.wrap(function*(req,res,cb) {
+//     console.log( req.body );
 
-    let domain="aone.social";
-    let username=req.body.mail;
-    let password=getSSHA512Password(req.body.passwd);
+//     let domain="aone.social";
+//     let username=req.body.mail;
+//     let password=getSSHA512Password(req.body.passwd);
 
-    let name="";
-    let maildir=getmaildir(username);
-    // let maildir=req.body.maildir;
-    let quota=0;
-    let storagebasedirectory="/var/vmail";
-    let storagenode="vmail1";
-    let created=getNowDate2();
-    let active='1';
-    let local_part="";
+//     let name="";
+//     let maildir=getmaildir(username);
+//     // let maildir=req.body.maildir;
+//     let quota=0;
+//     let storagebasedirectory="/var/vmail";
+//     let storagenode="vmail1";
+//     let created=getNowDate2();
+//     let active='1';
+//     let local_part="";
 
-    let address=req.body.mail;
-    let forwarding=req.body.mail;
-    let is_forwarding=1;
+//     let address=req.body.mail;
+//     let forwarding=req.body.mail;
+//     let is_forwarding=1;
 
-    let sql_mailbox = "insert into mailbox(domain,username,password,name,maildir,quota,storagebasedirectory,storagenode,created,active,local_part) values(?,?,?,?,?,?,?,?,?,?,?)";
-    let sql_forwardings = "insert into forwardings(address,forwarding,domain,is_forwarding) values(?,?,?,?)";
+//     let sql_mailbox = "insert into mailbox(domain,username,password,name,maildir,quota,storagebasedirectory,storagenode,created,active,local_part) values(?,?,?,?,?,?,?,?,?,?,?)";
+//     let sql_forwardings = "insert into forwardings(address,forwarding,domain,is_forwarding) values(?,?,?,?)";
     
-    try {
-        let connection = yield mysql.createConnection( dbs );
-        let rows = yield connection.query(sql_mailbox,[domain,username,password,name,maildir,quota,storagebasedirectory,storagenode,created,active,local_part]);
-        let rows2 = yield connection.query(sql_forwardings,[address,forwarding,domain,is_forwarding]);
-        return cb(null,{success:true,results:rows});
-    } catch( error ) {
-        return cb(null,{success:false,errors:error});
-    }
-});
+//     try {
+//         let connection = yield mysql.createConnection( dbs );
+//         let rows = yield connection.query(sql_mailbox,[domain,username,password,name,maildir,quota,storagebasedirectory,storagenode,created,active,local_part]);
+//         let rows2 = yield connection.query(sql_forwardings,[address,forwarding,domain,is_forwarding]);
+//         return cb(null,{success:true,results:rows});
+//     } catch( error ) {
+//         return cb(null,{success:false,errors:error});
+//     }
+// });
 
 module.exports.update = co.wrap(function*(req,res,cb) {
     console.log( req.body );
