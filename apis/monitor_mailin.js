@@ -54,10 +54,12 @@ var httpHandler = function(handler) {
 let saveMail = co.wrap(function*(connection, data, content) {
     console.log( "================" );
     console.log( data );
+    console.log( "================" );
     console.log( data.from );
     console.log( data.to );
     console.log( data.subject );
     console.log( data.text );
+    console.log( "================" );
 
     if( isourmail(data.to) == false)
         return;
