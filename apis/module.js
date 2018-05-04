@@ -110,9 +110,13 @@ function getmailaddr(mail) {
 
 module.exports.add = co.wrap(function*(req,res,cb) {
     console.log( req.body );
+    let guid   = req.body.guid;
     let email   = req.body.email;
     let password   = req.body.password;
     // mandatory
+    if( validate(guid) == false ) {
+        return cb(null,{success:false,errors:{msg:'there is no guid'}});
+    }
     if( validate(email) == false ) {
         return cb(null,{success:false,errors:{msg:'there is no email'}});
     }
@@ -130,7 +134,7 @@ module.exports.add = co.wrap(function*(req,res,cb) {
         if( mail.results.records.length )
             return cb(null,{success:false,error:{ msg:"Already added"}});
     }
-    query = "CREATE (mail:Mail{mail:'"+real_email+"',password:'" + password + "'} ) RETURN mail"        
+    query = "CREATE (mail:Mail{guid:'"+guid+"',mail:'"+real_email+"',password:'" + password + "'} ) RETURN mail"        
     mail = yield dbs.run(query);
     if( mail.errors ) {
         return cb(null,{success:false,error:{ msg:"NEO4J or CQLerror"}});
@@ -138,86 +142,6 @@ module.exports.add = co.wrap(function*(req,res,cb) {
     return cb(null,{success:true,data:{mail:real_email}});
     
 })
-
-// module.exports.add3 = co.wrap(function*(req,res,cb) {
-//     console.log( req.body );
-
-//     var options = {
-//         args:
-//         [
-//             req.body.passwd
-//         ]
-//     }
-//     python.run('./apis/encodepass.py',options,co.wrap(function*(err,data){
-//         if( err )
-//             return cb(null,{success:false,errors:err});
-//         var pass = data[0];
-//         console.log( pass );
-//         let domain="aone.social";
-//         let username=req.body.mail;
-//         let password=pass;
-    
-//         let name="";
-//         let maildir=getmaildir(username);
-//         // let maildir=req.body.maildir;
-//         let quota=0;
-//         let storagebasedirectory="/var/vmail";
-//         let storagenode="vmail1";
-//         let created=getNowDate2();
-//         let active='1';
-//         let local_part="";
-    
-//         let address=req.body.mail;
-//         let forwarding=req.body.mail;
-//         let is_forwarding=1;
-    
-//         let sql_mailbox = "insert into mailbox(domain,username,password,name,maildir,quota,storagebasedirectory,storagenode,created,active,local_part) values(?,?,?,?,?,?,?,?,?,?,?)";
-//         let sql_forwardings = "insert into forwardings(address,forwarding,domain,is_forwarding) values(?,?,?,?)";
-        
-//         try {
-//             let connection = yield mysql.createConnection( dbs );
-//             let rows = yield connection.query(sql_mailbox,[domain,username,password,name,maildir,quota,storagebasedirectory,storagenode,created,active,local_part]);
-//             let rows2 = yield connection.query(sql_forwardings,[address,forwarding,domain,is_forwarding]);
-//             return cb(null,{success:true,results:rows});
-//         } catch( error ) {
-//             return cb(null,{success:false,errors:error});
-//         }
-//     }))
-    
-// })
-// module.exports.add2 = co.wrap(function*(req,res,cb) {
-//     console.log( req.body );
-
-//     let domain="aone.social";
-//     let username=req.body.mail;
-//     let password=getSSHA512Password(req.body.passwd);
-
-//     let name="";
-//     let maildir=getmaildir(username);
-//     // let maildir=req.body.maildir;
-//     let quota=0;
-//     let storagebasedirectory="/var/vmail";
-//     let storagenode="vmail1";
-//     let created=getNowDate2();
-//     let active='1';
-//     let local_part="";
-
-//     let address=req.body.mail;
-//     let forwarding=req.body.mail;
-//     let is_forwarding=1;
-
-//     let sql_mailbox = "insert into mailbox(domain,username,password,name,maildir,quota,storagebasedirectory,storagenode,created,active,local_part) values(?,?,?,?,?,?,?,?,?,?,?)";
-//     let sql_forwardings = "insert into forwardings(address,forwarding,domain,is_forwarding) values(?,?,?,?)";
-    
-//     try {
-//         let connection = yield mysql.createConnection( dbs );
-//         let rows = yield connection.query(sql_mailbox,[domain,username,password,name,maildir,quota,storagebasedirectory,storagenode,created,active,local_part]);
-//         let rows2 = yield connection.query(sql_forwardings,[address,forwarding,domain,is_forwarding]);
-//         return cb(null,{success:true,results:rows});
-//     } catch( error ) {
-//         return cb(null,{success:false,errors:error});
-//     }
-// });
 
 module.exports.update = co.wrap(function*(req,res,cb) {
     console.log( req.body );
@@ -270,9 +194,10 @@ module.exports.sendMail = co.wrap(function*(req,res,cb) {
             console.dir('sent');
     })
     if( save == "save" ) {
+        let date = getNowDate()
         let uuid = String(Date.now());
         let query = "MATCH (mail:Mail{mail:'"+from+"'}) "
-        query += "CREATE (mail)-[r:SENT]->(msg:Msg{type:'sent',id:'"+uuid+"',from:'"+from+"',to:'"+to+"',subject:'"+subject+"',text:'"+text+"',bread:1}) RETURN msg";
+        query += "CREATE (mail)-[r:MAIL{direct:'sent'}]->(msg:Msg{direct:'sent',id:'"+uuid+"',from:'"+from+"',to:'"+to+"',subject:'"+subject+"',text:'"+text+"',bread:1,date:'"+date+"'}) RETURN msg";
         console.log( query );
         let msg = yield dbs.run( query );
         if( msg.errors ) {
