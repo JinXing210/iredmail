@@ -51,8 +51,8 @@ mailin.on('startMessage', function (connection) {
         authentication: { username: null, authenticated: false, status: 'NORMAL' }
       }
     }; */
-    console.log('------------startMessage');
-    console.log(connection);
+    // console.log('------------startMessage');
+    // console.log(connection);
 });
 
 function isourmail(mail) {
@@ -68,6 +68,7 @@ var httpHandler = function(handler) {
         });
     };
 };
+
 let saveMail = co.wrap(function*(connection, data, content) {
     let from = data.from[0].address;
     let to = data.to[0].address;
